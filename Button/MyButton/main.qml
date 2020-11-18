@@ -6,7 +6,7 @@ Window {
     visible: true
     width: 640
     height: 480
-    title: qsTr("demo")
+    title: qsTr("MyButton")
     color: "#3C3C3C"
 
     Row{
