@@ -13,6 +13,7 @@ Window {
 
     signal sigQML(var sigMsg)
 
+    //定义一个CPP对象
     MyGeneralApi{
         id: cppApi
     }
@@ -22,13 +23,15 @@ Window {
 
         spacing: 2
 
-        //qml发信号，qml处理信号
+        /****************************************************/
+        //qml发信号，qml处理信号(太简单了，懒得写)
         MyButton{
             id:btn1
             width: 200
             text: "qml -> qml"
         }
 
+        /****************************************************/
         //qml发信号，C++处理信号
         MyButton{
             id:btn2
@@ -54,6 +57,7 @@ Window {
             }
         }
 
+        /****************************************************/
         //C++发信号，qml处理信号
         MyButton{
             id:btn3
@@ -61,17 +65,27 @@ Window {
             text: "C++ -> qml"
 
             onClicked: {
-
+                cppApi.sendCppSig("sigCPP")   //cpp信号发送从这里触发
             }
 
+            //信号槽绑定方式1
+            Component.onCompleted: {
+                cppApi.sigCPP.connect(btn3.qmlSlot)
+            }
+
+            //信号槽绑定方式2
             Connections{
                 target: cppApi
 
                 onSigCPP:{
-                    console.log("QML信号处理函数处理C++信号:", sigMsg)
+                    btn3.qmlSlot(sigMsg)
                 }
             }
-        }
 
+            function qmlSlot(sigMsg)
+            {
+                console.log("QML信号处理函数处理C++信号:", sigMsg)
+            }
+        }
     }
 }
