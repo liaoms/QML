@@ -69,11 +69,11 @@ public:
 
 
     //虚函数  qml内部调用  获取第index行的内容  role 内容索引
-    QVariant data(const QModelIndex &index, int role =Qt::DisplayRole) const;
+    virtual QVariant data(const QModelIndex &index, int role =Qt::DisplayRole) const;
     //虚函数     获取model行数
-    int rowCount(const QModelIndex &parent  = QModelIndex() ) const;
+    virtual int rowCount(const QModelIndex &parent  = QModelIndex() ) const;
     // 虚函数 内容的别名  qml 内部调用
-    QHash<int, QByteArray> roleNames()  const;
+    virtual QHash<int, QByteArray> roleNames()  const;
 
 
     ~MyModel() {}
