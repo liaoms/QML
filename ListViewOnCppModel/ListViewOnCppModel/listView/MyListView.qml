@@ -16,6 +16,12 @@ Item {
         myModel.pushdata("A2", "B2", "C2", "D2")
         myModel.pushdata("A3", "B3", "C3", "D3")
         myModel.pushdata("A4", "B4", "C4", "D4")
+        myModel.pushdata("A5", "B5", "C5", "D5")
+        myModel.pushdata("A6", "B6", "C6", "D6")
+        myModel.pushdata("A7", "B7", "C7", "D7")
+        myModel.pushdata("A8", "B8", "C8", "D8")
+        myModel.pushdata("A9", "B9", "C9", "D9")
+        myModel.pushdata("A10", "B10", "C10", "D10")
     }
 
     ListView{
@@ -30,6 +36,7 @@ Item {
         focus: true
 
         highlightMoveDuration:100   //移动时的过渡动画速度
+        //highlightFollowsCurrentItem: true
 
         ScrollBar.vertical: ScrollBar {       //滚动条
             width: 10
@@ -39,11 +46,11 @@ Item {
         }
 
         // 高亮当前选中的item
-        highlight: Rectangle{
-            id: hRect
-            color: "#607B8B"
-            border.color: Qt.lighter(color)
-        }
+//        highlight: Rectangle{
+//            id: hRect
+//            color: "#607B8B"
+//            border.color: Qt.lighter(color)
+//        }
 
         onCurrentItemChanged: {
 
@@ -54,8 +61,6 @@ Item {
                 var data2 = myListView.model.get(myListView.currentIndex, MyModel.DATA2)
                 var data3 = myListView.model.get(myListView.currentIndex, MyModel.DATA3)
                 console.log(data0, data1, data2, data3)
-
-
             }
         }
 
@@ -143,30 +148,70 @@ Item {
                 color: Qt.lighter(itemColor)
             }
 
-            MouseArea{
-                    anchors.fill: parent
-                    hoverEnabled: true
+            DropArea {//接收拖拽的区域
+                anchors.fill: parent
+                keys: "index"   //限制接收过来的数据key，即只接收index的数据(对应Drag.mimeData: {"index":index})
 
-                    acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-                    onClicked: {
-                        myListView.currentIndex = index
-
-                        if(mouse.button === Qt.RightButton)
-                        {
-                            //右键删除菜单
-                            contextMenu.popup()
-                        }
-
-                    }
-
-                    onEntered: {
-                        rectDelegate.itemColor = "#528B8B"
-                    }
-                    onExited: {
-                        rectDelegate.itemColor = "#3C3C3C"
-                    }
+                onEntered: {
+                    rectDelegate.itemColor = "#AAAAAA"
                 }
+
+                onExited: {
+                    rectDelegate.itemColor = "#3C3C3C"
+                }
+                onDropped: {//鼠标拖拽完成  释放时触发
+                    rectDelegate.itemColor = "#3C3C3C"
+                    myModel.move(drop.source.Drag.mimeData.index, index)
+                }
+            }
+
+            MouseArea{
+                id: dragArea
+                anchors.fill: parent
+                hoverEnabled: true
+
+                onPressed: {
+                    rectDelegate.grabToImage(function(result) {
+                        item_mime.Drag.imageSource = result.url;
+                        item_mime.Drag.hotSpot.x = mouseX  //设置拖动时鼠标的位置就是点击的位置
+                        item_mime.Drag.hotSpot.y = mouseY
+                        dragArea.drag.target=item_mime;
+                    });
+                }
+
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+                onClicked: {
+                    myListView.currentIndex = index
+
+                    if(mouse.button === Qt.RightButton)
+                    {
+                        //右键删除菜单
+                        contextMenu.popup()
+                    }
+
+                }
+
+                onEntered: {
+                    rectDelegate.itemColor = "#528B8B"
+                }
+                onExited: {
+                    rectDelegate.itemColor = "#3C3C3C"
+                }
+            }
+
+            //拖拽用的辅助  移动过程中的悬浮样式
+            Item{
+                id: item_mime
+                Drag.active: dragArea.drag.active
+                Drag.mimeData: {"index":index}   //这句很设置了拖动源的数据
+                Drag.dragType: Drag.Automatic
+                Drag.supportedActions: Qt.CopyAction
+                Drag.onDragFinished: {
+                    item_mime.x=0;
+                    item_mime.y=0;
+                }
+            }
 
             //右键菜单
             Menu {

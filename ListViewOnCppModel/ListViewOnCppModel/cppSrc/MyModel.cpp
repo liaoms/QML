@@ -35,6 +35,30 @@ void  MyModel::mremove(int index)
     endRemoveRows();
 }
 
+void  MyModel::move(int from, int to)
+{
+    if(from <0 || from >= m_datas.size() || to <0 || to >= m_datas.size() || from == to)
+    {
+        return;
+    }
+
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    mydata fromData = m_datas[from];
+    mydata toData = m_datas[to];
+
+    mremove(from);
+
+    beginInsertRows(QModelIndex(), from, from);
+    m_datas.insert(m_datas.begin()+from, toData);
+    endInsertRows();
+
+    mremove(to);
+
+    beginInsertRows(QModelIndex(), to, to);
+    m_datas.insert(m_datas.begin()+to, fromData);
+    endInsertRows();
+}
+
 QVariant MyModel::get(int index, dataRole role)
 {
     if(index >=0 && index < m_datas.size())

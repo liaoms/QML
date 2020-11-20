@@ -58,6 +58,9 @@ public:
     //外部接口 删除指定行
     Q_INVOKABLE void  mremove(int index);
 
+    //移动item
+    Q_INVOKABLE void  move(int from, int to);
+
     //外部接口 获取指定行，指定role的数据
     Q_INVOKABLE QVariant get(int index, dataRole role );
 
