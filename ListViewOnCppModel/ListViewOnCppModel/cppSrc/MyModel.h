@@ -35,9 +35,21 @@ private:
 class MyModel  :public QAbstractListModel
 {
     Q_OBJECT
+
+    Q_ENUMS(dataRole)  //导出枚举到qml， 在qml中使用枚举，只能通过类名使用，例如 MyModel。DATA0
 public:
 
     MyModel(QObject*  parent=nullptr);
+
+    enum dataRole{
+        DATA0 = Qt::UserRole + 0,
+        DATA1,
+        DATA2,
+        DATA3
+    };
+
+
+public:
 
     //外部接口 QML调用 添加数据 
     Q_INVOKABLE void pushdata(const QString& data0, const QString& data1,const QString& data2, const QString& data3);
@@ -45,6 +57,9 @@ public:
     Q_INVOKABLE void  minsert(int index, const QString& data0, const QString& data1,const QString& data2, const QString& data3);
     //外部接口 删除指定行
     Q_INVOKABLE void  mremove(int index);
+
+    //外部接口 获取指定行，指定role的数据
+    Q_INVOKABLE QVariant get(int index, dataRole role );
 
     //外部接口 C++调用 添加数据
     void  Add(mydata&  md);

@@ -49,8 +49,13 @@ Item {
 
             if(myListView.count > 0)
             {
-//                var data = myListView.model.get(myListView.currentIndex)
-//                console.log(data.data0, "-",data.data1, "-",data.data2, "-",data.data3)
+                var data0 = myListView.model.get(myListView.currentIndex, MyModel.DATA0)  //使用C++的枚举，只能通过类名使用，不能通过id
+                var data1 = myListView.model.get(myListView.currentIndex, MyModel.DATA1)
+                var data2 = myListView.model.get(myListView.currentIndex, MyModel.DATA2)
+                var data3 = myListView.model.get(myListView.currentIndex, MyModel.DATA3)
+                console.log(data0, data1, data2, data3)
+
+
             }
         }
 

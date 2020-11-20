@@ -34,6 +34,33 @@ void  MyModel::mremove(int index)
     m_datas.erase(m_datas.begin() + index);
     endRemoveRows();
 }
+
+QVariant MyModel::get(int index, dataRole role)
+{
+    if(index >=0 && index < m_datas.size())
+    {
+        const mydata& d = m_datas[index];
+        if (role == DATA0)
+        {
+            return d.data0();
+        }
+        else if (role == DATA1)
+        {
+            return d.data1();
+        }
+        else if (role == DATA2)
+        {
+            return d.data2();
+        }
+        else if (role == DATA3)
+        {
+            return d.data3();
+        }
+    }
+
+    return  QVariant();
+}
+
 void MyModel::pushdata(const QString& data0, const QString& data1,const QString& data2, const QString& data3)
 {
     mydata  d(data0, data1, data2, data3);
@@ -51,20 +78,20 @@ QVariant MyModel::data(const QModelIndex &index, int role)  const
         return QVariant();
     }
     const mydata& d = m_datas[index.row()];
-    if (role == Qt::UserRole + 0)
+    if (role == DATA0)
     {
         return d.data0();
 
     }
-    else if (role == Qt::UserRole + 1)
+    else if (role == DATA1)
     {
         return d.data1();
     }
-    else if (role == Qt::UserRole + 2)
+    else if (role == DATA2)
     {
         return d.data2();
     }
-    else if (role == Qt::UserRole + 3)
+    else if (role == DATA3)
     {
         return d.data3();
     }
@@ -77,9 +104,9 @@ QVariant MyModel::data(const QModelIndex &index, int role)  const
 QHash<int, QByteArray> MyModel::roleNames() const
 {
     QHash<int, QByteArray>  d;
-    d[Qt::UserRole + 0] = "data0";
-    d[Qt::UserRole + 1] = "data1";
-    d[Qt::UserRole + 2] = "data2";
-    d[Qt::UserRole + 3] = "data3";
+    d[DATA0] = "data0";
+    d[DATA1] = "data1";
+    d[DATA2] = "data2";
+    d[DATA3] = "data3";
     return  d;
 }
