@@ -17,6 +17,14 @@ Window {
         id: genApi
     }
 
+    Connections{
+        target:genApi   //绑定genApi中的messageChanged信号
+
+        onMessageChanged:{
+            console.log("onMessageChanged", message)
+        }
+    }
+
     Column{
         anchors.centerIn: parent
         spacing: 5
@@ -40,6 +48,7 @@ Window {
             onClicked: {
                 var ret = genApi.generalFun(text)
                 console.log(ret)
+                genApi.message = "message"   //设置message消息的时候，会发送 messageChanged 信号，具体看C++中的写法
             }
         }
 
@@ -53,7 +62,6 @@ Window {
                 console.log(ret)
             }
         }
-
 
     }
 }
