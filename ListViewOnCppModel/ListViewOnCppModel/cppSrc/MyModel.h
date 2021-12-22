@@ -58,8 +58,10 @@ public:
 
     //外部接口 QML调用 添加数据 
     Q_INVOKABLE void pushdata(const QString& data0, const QString& data1,const QString& data2, const QString& data3);
+
     //外部接口 QML调用 添加数据在指定行
     Q_INVOKABLE void  minsert(int index, const QString& data0, const QString& data1,const QString& data2, const QString& data3);
+
     //外部接口 删除指定行
     Q_INVOKABLE void  mremove(int index);
 
@@ -70,12 +72,14 @@ public:
     Q_INVOKABLE QVariant get(int index, dataRole role );
 
     //外部接口 设置指定行，指定role的数据
-    Q_INVOKABLE bool set(int index, dataRole role, QVariant value );
+    Q_INVOKABLE bool set(int index, QVariant value, dataRole role);
 
-    //外部接口 C++调用 添加数据
-    void  Add(mydata&  md);
     //外部接口 清除model
     Q_INVOKABLE void clear();
+
+public:
+    //外部接口 C++调用 添加数据
+    void  Add(mydata&  md);
 
 
 public:   //继承重写

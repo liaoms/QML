@@ -2,7 +2,7 @@
 
 MyModel::MyModel(QObject* parent) :QAbstractListModel(parent)
 {
-
+    initData();
 }
 void MyModel::Add(mydata& md)
 {
@@ -85,11 +85,47 @@ QVariant MyModel::get(int index, dataRole role)
     return  QVariant();
 }
 
+bool MyModel::set(int index, QVariant value, dataRole role)
+{
+    return false;
+}
+
 void MyModel::pushdata(const QString& data0, const QString& data1,const QString& data2, const QString& data3)
 {
     mydata  d(data0, data1, data2, data3);
     Add(d);
 }
+
+bool MyModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (!index.isValid())
+        return false;
+    const int row=index.row();
+
+    mydata& d = m_datas[row];
+    //目前只部分属性可以改
+    switch(role)
+    {
+    case DATA0:
+        d.setData0(value.toString());
+        break;
+    case DATA1:
+        d.setData1(value.toString());
+        break;
+    case DATA2:
+        d.setData2(value.toString());
+        break;
+    case DATA3:
+        d.setData3(value.toString());
+        break;
+    default:
+        break;
+    }
+
+    emit dataChanged(index, index);
+    return true;
+}
+
 int MyModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
@@ -105,7 +141,6 @@ QVariant MyModel::data(const QModelIndex &index, int role)  const
     if (role == DATA0)
     {
         return d.data0();
-
     }
     else if (role == DATA1)
     {
@@ -120,8 +155,6 @@ QVariant MyModel::data(const QModelIndex &index, int role)  const
         return d.data3();
     }
     return QVariant();
-
-
 }
 
 //定义数据别名  QHash<int, QByteArray> 父类规定的
@@ -133,4 +166,12 @@ QHash<int, QByteArray> MyModel::roleNames() const
     d[DATA2] = "data2";
     d[DATA3] = "data3";
     return  d;
+}
+
+void MyModel::initData()
+{
+    pushdata("A1","B1","C1","D1");
+    pushdata("A2","B2","C2","D2");
+    pushdata("A3","B3","C3","D3");
+    pushdata("A4","B4","C4","D4");
 }

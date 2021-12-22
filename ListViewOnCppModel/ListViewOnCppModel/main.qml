@@ -27,14 +27,14 @@ Window {
                 Layout.preferredHeight: 30
 
                 Button {
-                  text: qsTr("Ôö¼Ó")
+                  text: qsTr("å¢žåŠ ")
                   Layout.preferredWidth: 100
                   onClicked: {
 
                   }
                 }
                 Button {
-                  text: qsTr("É¾³ý")
+                  text: qsTr("åˆ é™¤")
                   Layout.preferredWidth: 100
                   onClicked: {
 
