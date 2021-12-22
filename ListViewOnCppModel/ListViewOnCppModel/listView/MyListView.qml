@@ -12,16 +12,6 @@ Item {
     }
 
     Component.onCompleted: {
-        myModel.pushdata("A1", "B1", "C1", "D1")
-        myModel.pushdata("A2", "B2", "C2", "D2")
-        myModel.pushdata("A3", "B3", "C3", "D3")
-        myModel.pushdata("A4", "B4", "C4", "D4")
-        myModel.pushdata("A5", "B5", "C5", "D5")
-        myModel.pushdata("A6", "B6", "C6", "D6")
-        myModel.pushdata("A7", "B7", "C7", "D7")
-        myModel.pushdata("A8", "B8", "C8", "D8")
-        myModel.pushdata("A9", "B9", "C9", "D9")
-        myModel.pushdata("A10", "B10", "C10", "D10")
     }
 
     ListView{
@@ -36,7 +26,7 @@ Item {
         focus: true
 
         highlightMoveDuration:100   //移动时的过渡动画速度
-        //highlightFollowsCurrentItem: true
+        highlightFollowsCurrentItem: true
 
         ScrollBar.vertical: ScrollBar {       //滚动条
             width: 10
@@ -45,23 +35,14 @@ Item {
             active: true
         }
 
-        // 高亮当前选中的item
-//        highlight: Rectangle{
-//            id: hRect
-//            color: "#607B8B"
-//            border.color: Qt.lighter(color)
-//        }
+         //高亮当前选中的item
+        highlight: Rectangle{
+            id: hRect
+            color: "#607B8B"
+            border.color: Qt.lighter(color)
+        }
 
         onCurrentItemChanged: {
-
-            if(myListView.count > 0)
-            {
-                var data0 = myListView.model.get(myListView.currentIndex, MyModel.DATA0)  //使用C++的枚举，只能通过类名使用，不能通过id
-                var data1 = myListView.model.get(myListView.currentIndex, MyModel.DATA1)
-                var data2 = myListView.model.get(myListView.currentIndex, MyModel.DATA2)
-                var data3 = myListView.model.get(myListView.currentIndex, MyModel.DATA3)
-                console.log(data0, data1, data2, data3)
-            }
         }
 
         //键盘delete键删除
@@ -95,7 +76,7 @@ Item {
                 ListViewItemDelegate{
                     Layout.fillWidth: true
                     height: parent.height-3
-                    text: model.data0    //每个listView内容的委托text，直接设置成model项的名就行(这个就直接将model名对应的内容与委托的text一一绑定)
+                    text: model.data0
                 }
 
                 Rectangle{
