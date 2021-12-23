@@ -46,9 +46,6 @@ Window {
             width: 200
 
             onClicked: {
-//                var ret = genApi.generalFun(text)
-                var ret = genApi.getSigMsg()
-                console.log(ret)
                 genApi.message = "message"   //设置message消息的时候，会发送 messageChanged 信号，具体看C++中的写法
             }
         }
@@ -60,7 +57,6 @@ Window {
 
             onClicked: {
                 var ret = MySingleApi.singleFun(text)
-                MySingleApi.setMsg("直接调用C++中的单例对象")
                 console.log(ret)
             }
         }
